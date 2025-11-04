@@ -4,13 +4,14 @@
 
 	import {
 		BookOpen,
-		Github,
 		Mail,
+		Github,
 		Shield,
 		Sparkles,
 		Target,
 	} from "lucide-svelte";
 	import { fadeFly } from "$lib/transitions/transitions";
+	import HeaderTitle from "$lib/components/HeaderTitle.svelte";
 
 	let count: number = 0;
 
@@ -73,6 +74,11 @@
 	];
 </script>
 
+<HeaderTitle
+	title="About"
+	description="Learn more about Daniel Villavicencio, a passionate software engineer with 
+	experience in a wide variety of technologies and specializing in backend development"
+/>
 <main
 	class="flex flex-col max-w-4xl mx-auto p-8 gap-10 sm:gap-18 items-center md:gap-24"
 >

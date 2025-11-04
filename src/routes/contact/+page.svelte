@@ -14,6 +14,7 @@
 	import { onMount } from "svelte";
 	import { fadeFly } from "$lib/transitions/transitions";
 	import type { ContactRequest, InquiryType } from "$lib/types/ContactRequest";
+	import HeaderTitle from "$lib/components/HeaderTitle.svelte";
 
 	const inquiries: InquiryType[] = [
 		"General Inquiry",
@@ -180,6 +181,12 @@
 		}
 	});
 </script>
+
+<HeaderTitle
+	title="Contact"
+	description="Get in Touch with Daniel Villavicencio for collaboration, freelance work, or professional inquiries 
+	in web development. Or shoot him a message about a bug!"
+/>
 
 <main class="w-full px-8">
 	<div

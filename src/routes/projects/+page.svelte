@@ -6,6 +6,7 @@
 	import { ArrowDown, ArrowUp, Search, X } from "lucide-svelte";
 	import { stagger } from "$lib/utils/staggeredCount";
 	import { onMount } from "svelte";
+	import HeaderTitle from "$lib/components/HeaderTitle.svelte";
 
 	let staggeredCount = () => {
 		return stagger(false);
@@ -86,6 +87,12 @@
 		}
 	});
 </script>
+
+<HeaderTitle
+	title="Projects"
+	description="Showcase of Daniel Villavicencio's projects across several disciplines 
+	and a wide range of technologies"
+/>
 
 <main class="w-full px-8">
 	<div class="max-w-4xl mx-auto flex flex-col items-center gap-8 sm:gap-12">

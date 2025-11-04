@@ -2,14 +2,10 @@
 	import { FolderDotIcon, Mail, ArrowRight, ChevronDown } from "lucide-svelte";
 	import ProjectCard from "$lib/components/ProjectCard.svelte";
 	import { onMount } from "svelte";
-	import {
-		getRepoMetadata,
-		getMostRecentProjects,
-		data,
-		getPinnedProjects,
-	} from "$lib/data/projects";
+	import { getRepoMetadata, data, getPinnedProjects } from "$lib/data/projects";
 	import { fadeFly } from "$lib/transitions/transitions";
 	import type { CoreTechnologies } from "$lib/types/CoreTechnologies";
+	import HeaderTitle from "$lib/components/HeaderTitle.svelte";
 
 	let greetingText = $state("");
 	let greetingIndex = 0;
@@ -126,6 +122,10 @@
 	}
 </script>
 
+<HeaderTitle
+	title="Home"
+	description="Portfolio of Daniel Villavicencio - Software Engineer specializing in full-stack web development and modern backend frameworks"
+/>
 <main class="flex flex-col items-center gap-10 sm:gap-18 md:gap-24">
 	<!-- Hero banner -->
 	<section

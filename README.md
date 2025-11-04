@@ -1,38 +1,61 @@
-# sv
+# Verity Log
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+This repo contains all the source code for my personal portfolio I dubbed
+`verity-log`. Why is it called 'verity'? According to the Merriam Webster dictionary
+the word [verity](https://www.merriam-webster.com/dictionary/verity) means
+the state of being true or real. This website-portfolio is a true expression of
+who I am and how I showcase myself to other people about my career and
+aspirations. And why 'log'? That's because I treat it as a ledger of
+all my achievements, projects, experiences, and blog notes (in the future).
 
-## Creating a project
+## Live Site
 
-If you're seeing this, you've probably already done this step. Congrats!
+[Visit my portfolio](https://danielvm.dev)
 
-```sh
-# create a new project in the current directory
-npx sv create
+## Technology Stack
 
-# create a new project in my-app
-npx sv create my-app
+- [Typescript](https://typescriptlang.org) - Javascript with better type inference
+- [Svelte](https://svelte.dev) - UI component framework
+- [SvelteKit](https://svelte.dev) - A framework utilities for client-side
+routing, server-side rendering, and data fetching
+- [TailwindCSS](https://tailwindcss.com) - CSS library for optimized inline styles
+- [Vite](http://vite.dev) - Build tool for frontend applications
+
+## Project Structure
+
+``` txt
+src/
+├── lib/
+│   ├── components/
+│   │   ├── … (component files)
+│   │   └── …
+│   ├── types/
+│   │   ├── … (custom types)
+│   │   └── …
+│   ├── data/
+│   │   ├── … (static or dynamically fetched data)
+│   │   └── …
+│   └── main.ts
+└── utils/
+    ├── … (utility files)
+    │
+    │ routes/
+    └── … (page files)
+static/
+├── assets/ 
+    └── .. (static assets)
 ```
 
-## Developing
+## Other Features
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+The contact page is served through a custom-made web server in Go I to validate
+CloudFlare's Turnstile token sent through the `/contact` form. Additionally, I'm
+using Mailgun to send emails through my web server.
 
-```sh
-npm run dev
+## License
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+MIT License - Feel free to fork or use this template for your own portfolio. Just
+make sure you replace your my `resume.pdf` file with your own in the static folder.
 
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+___
+Built with ❤️ by Daniel
