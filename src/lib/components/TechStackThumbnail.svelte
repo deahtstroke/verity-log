@@ -17,7 +17,7 @@
 				class="w-20 h-20 bg-white/5 rounded-xl flex items-center justify-center relative"
 			>
 				<div
-					class="absolute inset-[-2px] rounded-xl opacity-10 -z-10"
+					class="absolute -inset-0.5 rounded-xl opacity-10 -z-10"
 					style="background: {techIcon?.color || '#64b5f6'};"
 				></div>
 

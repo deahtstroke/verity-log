@@ -11,6 +11,7 @@
 		Server,
 		Timer,
 	} from "lucide-svelte";
+	import { onMount } from "svelte";
 	import { fadeFly } from "$lib/transitions/transitions";
 	import type { ContactRequest, InquiryType } from "$lib/types/ContactRequest";
 
@@ -86,22 +87,12 @@
 	async function handleSubmit(e: Event) {
 		e.preventDefault();
 
-		const form = new FormData(e.currentTarget);
-
 		if (!validateForm()) {
-			return;
-		}
-
-		const cloudflareToken = "cf-turnstile-response";
-		const cfToken = form.get(cloudflareToken);
-		if (typeof cfToken !== "string") {
-			console.log("Expected CfToken to be a string");
 			return;
 		}
 
 		try {
 			isSubmitting = true;
-			formData.cfToken = cfToken;
 			const contactUrl = import.meta.env.PROD
 				? "https://api.danielvm.dev/contact"
 				: "http://localhost:3000/contact";
@@ -114,6 +105,12 @@
 				method: "POST",
 				body: JSON.stringify(formData),
 			});
+
+			// rate limit reached
+			if (response.status === 429) {
+				submitStatus = "error";
+				throw new Error("Too many messages sent. Please try again later.");
+			}
 
 			if (!response.ok) {
 				submitStatus = "error";
@@ -174,6 +171,14 @@
 		const randomIndex = Math.floor(Math.random() * placeholders.length);
 		return placeholders[randomIndex];
 	}
+
+	onMount(() => {
+		if (window.turnstile) {
+			(window as any).onTurnstileSuccess = (token: string) => {
+				formData.cfToken = token;
+			};
+		}
+	});
 </script>
 
 <main class="w-full px-8">
@@ -225,6 +230,7 @@
 						hidden
 						class="cf-turnstile"
 						data-sitekey="0x4AAAAAAB8Kyhx16DqpPvEy"
+						data-callback="onTurnstileSuccess"
 					></div>
 					<!-- Name -->
 					<div

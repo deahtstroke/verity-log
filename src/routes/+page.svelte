@@ -1,11 +1,15 @@
 <script lang="ts">
-	import { fadeFly } from "$lib/transitions/transitions";
 	import { FolderDotIcon, Mail, ArrowRight, ChevronDown } from "lucide-svelte";
-
 	import ProjectCard from "$lib/components/ProjectCard.svelte";
-	import { data } from "$lib/data/projects";
-	import type { CoreTechnologies } from "$lib/types/CoreTechnologies";
 	import { onMount } from "svelte";
+	import {
+		getRepoMetadata,
+		getMostRecentProjects,
+		data,
+		getPinnedProjects,
+	} from "$lib/data/projects";
+	import { fadeFly } from "$lib/transitions/transitions";
+	import type { CoreTechnologies } from "$lib/types/CoreTechnologies";
 
 	let greetingText = $state("");
 	let greetingIndex = 0;
@@ -53,11 +57,13 @@
 		"مرحبا",
 	];
 
+	let enrichedRepoMetadata = $state(getRepoMetadata(data));
+
 	onMount(() => {
 		let charIndex: number = 0;
 		let isDeleting: boolean = false;
 		let isPaused: boolean = false;
-		let timeoutId: number;
+		let timeoutId: NodeJS.Timeout;
 
 		const type: () => void = () => {
 			const currentGreeting = greetings[greetingIndex];
@@ -212,9 +218,15 @@
 			These are projects I actively maintain and/or am currently working on
 		</p>
 		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-			{#each data as project}
-				<ProjectCard {project} />
-			{/each}
+			{#await enrichedRepoMetadata}
+				{#each [1, 2, 3] as _}
+					<ProjectCard />
+				{/each}
+			{:then projects}
+				{#each getPinnedProjects(projects) as project}
+					<ProjectCard {project} />
+				{/each}
+			{/await}
 		</div>
 	</section>
 

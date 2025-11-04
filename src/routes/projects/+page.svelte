@@ -1,10 +1,11 @@
 <script lang="ts">
 	import ProjectCard from "$lib/components/ProjectCard.svelte";
 
-	import { data as projects } from "$lib/data/projects";
+	import { data as projects, getRepoMetadata } from "$lib/data/projects";
 	import { fadeFly } from "$lib/transitions/transitions";
 	import { ArrowDown, ArrowUp, Search, X } from "lucide-svelte";
 	import { stagger } from "$lib/utils/staggeredCount";
+	import { onMount } from "svelte";
 
 	let staggeredCount = () => {
 		return stagger(false);
@@ -15,11 +16,14 @@
 	};
 
 	let searchQuery = $state<string>("");
-	let sortBy = $state<"name" | "techCount">("name");
+	let sortBy = $state<"name" | "techCount" | "updateDate" | "creationDate">(
+		"name",
+	);
 	let sortOrder = $state<"asc" | "desc">("asc");
+	let baseProjects = $state(projects);
 
 	let filteredProjects = $derived(
-		projects
+		baseProjects
 			.filter((p) => {
 				if (!searchQuery.trim()) {
 					return true;
@@ -33,16 +37,30 @@
 				);
 			})
 			.sort((a, b) => {
-				if (sortBy === "name") {
-					return sortOrder === "asc"
-						? a.title.localeCompare(b.title)
-						: b.title.localeCompare(a.title);
-				} else if (sortBy === "techCount") {
-					return sortOrder === "asc"
-						? a.technologies.length - b.technologies.length
-						: b.technologies.length - a.technologies.length;
+				switch (sortBy) {
+					case "name":
+						return sortOrder === "asc"
+							? a.title.localeCompare(b.title)
+							: b.title.localeCompare(a.title);
+					case "techCount":
+						return sortOrder === "asc"
+							? a.technologies.length - b.technologies.length
+							: b.technologies.length - a.technologies.length;
+					case "updateDate":
+						if (a.lastUpdatedAt && b.lastUpdatedAt) {
+							return sortOrder === "asc"
+								? a.lastUpdatedAt.getTime() - b.lastUpdatedAt.getTime()
+								: b.lastUpdatedAt.getTime() - a.lastUpdatedAt.getTime();
+						} else return 0;
+					case "creationDate":
+						if (a.createdAt && b.createdAt) {
+							return sortOrder === "asc"
+								? a.createdAt.getTime() - b.createdAt.getTime()
+								: b.createdAt.getTime() - a.createdAt.getTime();
+						} else return 0;
+					default:
+						return 0;
 				}
-				return 0;
 			}),
 	);
 
@@ -57,6 +75,16 @@
 		searchQuery = "";
 		sortBy = "name";
 	}
+
+	// Enrich data on component being mounted
+	onMount(async () => {
+		try {
+			const response = await getRepoMetadata(projects);
+			baseProjects = response;
+		} catch (error) {
+			console.log(error);
+		}
+	});
 </script>
 
 <main class="w-full px-8">
@@ -89,7 +117,7 @@
 			>
 				{#if hasActiveFilters}
 					<X
-						onclick={clearFilters}
+						onclick={() => (searchQuery = "")}
 						class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-bright hover:cursor-pointer"
 					/>
 				{:else}
@@ -115,8 +143,10 @@
 						bind:value={sortBy}
 						class="px-4 py-2 bg-bg-dark border border-border-default rounded focus:outline-none focus:border-cyan-500 transition-colors"
 					>
-						<option value="name">Sort by Name</option>
-						<option value="techCount">Sort by Tech #</option>
+						<option value="name">Name</option>
+						<option value="techCount">Tech #</option>
+						<option value="creationDate">Creation Date</option>
+						<option value="updateDate">Update Date</option>
 					</select>
 				</div>
 				<button
