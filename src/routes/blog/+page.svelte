@@ -59,9 +59,9 @@
 						<!-- Thumbnail -->
 						<div class="sm:w-48 sm:h-36 shrink-0">
 							<div
-								class="w-full h-36 rounded-lg overflow-hidden bg-linear-to-br from-primary/20 to-accent/20
-							flex items-center justify-center border border-border
-							group-hover:border-primary/50 transition-colors font-mono"
+								class="w-full h-36 rounded-lg overflow-hidden bg-linear-to-br
+								from-primary/20 to-accent/20 flex items-center justify-center
+								border border-border group-hover:border-primary/50 transition-colors font-mono text-bright"
 								style="background: linear-gradient(135deg, hsl({post.colorStart}), hsl({post.colorEnd}))"
 							>
 								{post.thumbnailText}
@@ -70,7 +70,7 @@
 						<div class="flex-1 flex flex-col gap-2">
 							<h2 class="text-2xl font-semibold text-bright">{post.title}</h2>
 							<p class="text-sm text-default/60">
-								Publshed {formatDate(post.date)}
+								Published {formatDate(post.date)}
 							</p>
 							<p class="text-default">{trimDescription(post.description)}</p>
 						</div>

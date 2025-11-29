@@ -1,9 +1,10 @@
 import { error } from '@sveltejs/kit';
-import type { PageLoad } from './$types';
+import type { MdsvexModule } from '*.md'
+import type { LayoutLoad } from './$types';
 
-export const load: PageLoad = async ({ params }) => {
+export const load: LayoutLoad = async ({ params }) => {
 	try {
-		const post = await import(`$lib/posts/${params.slug}.md`)
+		const post = await import(`$lib/posts/${params.slug}.md`) as MdsvexModule;
 		return {
 			content: post.default,
 			metadata: post.metadata

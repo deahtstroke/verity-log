@@ -133,19 +133,44 @@
   }
 }
 
-/**
- * Styles for blogs
- */
 .prose {
-		h1 {
-      @apply text-2xl sm:text-3xl md:text-5xl font-semibold text-bright
-		}
+  h1 {
+    @apply text-4xl sm:text-5xl font-semibold text-bright
+  }
 
-    p {
-      @apply text-sm text-default
-    }
+  h2 {
+    @apply text-3xl sm:text-4xl font-semibold text-bright
+  }
 
-    a {
-      @apply text-sm text-default cursor-pointer
-    }
-	}
+  h3 {
+    @apply text-2xl sm:text-3xl font-semibold text-bright
+  }
+
+  h1, h2, h3, h4, h5, p {
+    @apply mt-0 mb-6
+  }
+
+  code {
+    @apply text-base text-bright p-1 bg-bg-card rounded
+  }
+
+  code::after, code::before {
+    display: none;
+  }
+
+  p, li, ol {
+    @apply text-base text-default
+  }
+
+  li::marker {
+    @apply text-base text-bright
+  }
+
+  strong {
+    @apply text-base text-bright font-semibold
+  }
+
+  a {
+    @apply text-sm text-default cursor-pointer
+  }
+}
