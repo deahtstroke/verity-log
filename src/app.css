@@ -146,12 +146,16 @@
     @apply text-2xl sm:text-3xl font-semibold text-bright
   }
 
+  h4 {
+    @apply text-xl sm:text-2xl font-semibold text-bright
+  }
+
   h1, h2, h3, h4, h5, p {
     @apply mt-0 mb-6
   }
 
   code {
-    @apply text-base text-bright p-1 bg-bg-card rounded
+    @apply text-base text-bright/85 px-1 bg-bg-card rounded
   }
 
   code::after, code::before {
@@ -171,6 +175,10 @@
   }
 
   a {
-    @apply text-sm text-default cursor-pointer
+    @apply text-base font-normal text-default cursor-pointer
+  }
+
+  a:hover {
+    @apply underline text-cyan-600
   }
 }
