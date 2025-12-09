@@ -1,6 +1,9 @@
-import { mdsvex } from 'mdsvex';
-import adapter from '@sveltejs/adapter-cloudflare';
+import { mdsvex, escapeSvelte } from 'mdsvex';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import { createHighlighter } from 'shiki';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import adapter from '@sveltejs/adapter-cloudflare';
+import rehypeSlug from 'rehype-slug';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -9,6 +12,27 @@ const config = {
 	extensions: ['.svelte', '.svx', ".md"],
 	preprocess: [vitePreprocess(), mdsvex({
 		extensions: [".md", ".svx"],
+		highlight: {
+			highlighter: async (code, lang = 'text') => {
+				const highlighter = await createHighlighter({
+					themes: ['catppuccin-mocha'],
+					langs: ['go'],
+				});
+
+				await highlighter.loadLanguage('go');
+				const html = escapeSvelte(highlighter.codeToHtml(code, { lang, theme: 'catppuccin-mocha' }));
+				return `{@html \`${html}\`}`
+			}
+		},
+		rehypePlugins: [
+			rehypeSlug,
+			[rehypeAutolinkHeadings, {
+				behavior: "wrap",
+				properties: {
+					className: 'heading-anchor',
+				}
+			}]
+		]
 	})],
 	kit: { // adapter-auto only supports some environments, see https://svelte.dev/docs/kit/adapter-auto for a list.
 		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
