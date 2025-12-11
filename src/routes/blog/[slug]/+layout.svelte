@@ -9,7 +9,10 @@
 </script>
 
 <svelte:head>
-	<meta property="og:type" content="article" />
+	<meta property="og:title" content={data.metadata.title} />
+	<meta property="og:description" content={data.metadata.description} />
+	<meta property="og.url" content={data.href} />
+	<meta property="og:image" content="/manatee.png" />
 </svelte:head>
 
 <article class="max-w-3xl gap-4 mx-auto px-8 py-4">
@@ -48,6 +51,7 @@
 		</p>
 	</header>
 
+	<!-- Content goes here -->
 	<div class="prose">
 		{@render children()}
 	</div>
