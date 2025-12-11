@@ -134,6 +134,10 @@
 }
 
 .prose {
+  @apply max-w-none w-full
+}
+
+.prose {
   h1 > a {
     @apply text-4xl sm:text-5xl font-semibold text-bright no-underline
   }
