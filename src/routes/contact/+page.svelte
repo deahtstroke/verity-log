@@ -174,11 +174,9 @@
 	}
 
 	onMount(() => {
-		if (window.turnstile) {
-			(window as any).onTurnstileSuccess = (token: string) => {
-				formData.cfToken = token;
-			};
-		}
+		(window as any).onTurnstileSuccess = (token: string) => {
+			formData.cfToken = token;
+		};
 	});
 </script>
 
@@ -188,7 +186,7 @@
 	in web development. Or shoot him a message about a bug!"
 />
 
-<main class="w-full px-8">
+<main class="w-full p-8">
 	<div
 		class="max-w-4xl mx-auto flex flex-col items-center gap-8 sm:gap-16 md:gap-24"
 	>
