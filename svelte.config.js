@@ -5,6 +5,11 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import adapter from '@sveltejs/adapter-cloudflare';
 import rehypeSlug from 'rehype-slug';
 
+const highlighterPromise = createHighlighter({
+	themes: ['catppuccin-mocha'],
+	langs: ['go', 'json']
+})
+
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	// Consult https://svelte.dev/docs/kit/integrations
@@ -14,12 +19,8 @@ const config = {
 		extensions: [".md", ".svx"],
 		highlight: {
 			highlighter: async (code, lang = 'text') => {
-				const highlighter = await createHighlighter({
-					themes: ['catppuccin-mocha'],
-					langs: ['go'],
-				});
-
-				await highlighter.loadLanguage('go');
+				const highlighter = await highlighterPromise
+				await highlighter.loadLanguage('go', 'json');
 				const html = escapeSvelte(highlighter.codeToHtml(code, { lang, theme: 'catppuccin-mocha' }));
 				return `{@html \`${html}\`}`
 			}

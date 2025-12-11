@@ -129,7 +129,7 @@
 */
 @layer base {
   html, body {
-    @apply p-0 m-0 min-h-screen text-default bg-bg-default;
+    @apply p-0 m-0 flex flex-col min-h-screen text-default bg-bg-default;
   }
 }
 
@@ -154,10 +154,16 @@
     @apply mt-0 mb-6
   }
 
+  /*
+   * Code blocks with single back ticks
+   */
   code:not(pre code) {
-    @apply text-bright/85 px-1 bg-bg-card 
+    @apply text-bright/85 px-1 bg-bg-card text-sm sm:text-base
   }
 
+  /*
+   * Remove back ticks from pseudo-elements before/after
+   */
   code:not(pre code)::after, code:not(pre code)::before {
     display: none;
   }

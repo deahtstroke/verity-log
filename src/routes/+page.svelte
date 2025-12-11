@@ -18,7 +18,7 @@
 		},
 		{
 			category: "Frameworks",
-			technologies: ["Spring Boot", "Svelte", ".NET", "React"],
+			technologies: ["Spring Boot", "Svelte", "React"],
 		},
 		{
 			category: "Tools & Infrastructure",
@@ -33,7 +33,7 @@
 		},
 	];
 
-	const greetings = [
+	const greetings: string[] = [
 		"Hello",
 		"Hola",
 		"Bonjour",
@@ -119,6 +119,7 @@
 	title="Home"
 	description="Portfolio of Daniel Villavicencio - Software Engineer specializing in full-stack web development and modern backend frameworks"
 />
+
 <main class="flex flex-col items-center gap-10 sm:gap-18 md:gap-24">
 	<!-- Hero banner -->
 	<section
@@ -231,6 +232,9 @@
 		>
 			Core Technologies
 		</h2>
+		<p class="text-sm text-center">
+			Programming languages, frameworks, and technologies I use on the regular
+		</p>
 		{#each coreTechnologies as tech}
 			<h3
 				in:fadeFly|global={{ delay: stagger(true), duration: 150, y: 20 }}

@@ -8,5 +8,7 @@
 </script>
 
 <Navbar />
-{@render children?.()}
+<main class="grow">
+	{@render children?.()}
+</main>
 <Footer />

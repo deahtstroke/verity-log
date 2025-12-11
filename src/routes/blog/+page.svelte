@@ -29,22 +29,23 @@
 	description="Technical writing and software development insights"
 />
 
-<main
-	class="flex flex-col items-center justify-center gap-10 sm:gap-18 md:gap-24"
->
-	<section class="max-w-6xl relative px-8 flex flex-col gap-6 items-center">
+<main class="bg-bg-default flex flex-col items-center px-8 gap-8 sm:gap-12">
+	<section class="flex flex-col gap-6 items-center py-12">
 		<h1
 			in:fadeFly={{ delay: stagger(false, 1), duration: 300, y: 20 }}
-			class="text-5xl text-bright font-semibold"
+			class="text-5xl md:text-7xl text-bright font-semibold"
 		>
 			Blog
 		</h1>
 		<p
 			in:fadeFly={{ delay: stagger(false, 1), duration: 300, y: 20 }}
-			class="text-center"
+			class="text-lg text-default text-center"
 		>
-			Technical writing and development insights (AKA professional rambling)
+			Technical writing and development insights on projects I'm currently
+			working on.
 		</p>
+	</section>
+	<section class="max-w-6xl relative flex flex-col gap-6 items-center">
 		<div class="grid gap-6">
 			{#each data.posts as post}
 				<a href="/blog/{post.slug}">
