@@ -1,22 +1,15 @@
 <script lang="ts">
 	import { FolderDotIcon, Mail, ArrowRight, ChevronDown } from "lucide-svelte";
 	import ProjectCard from "$lib/components/ProjectCard.svelte";
-	import { onMount } from "svelte";
-	import { getRepoMetadata, data, getPinnedProjects } from "$lib/data/projects";
-	import { fadeFly } from "$lib/transitions/transitions";
-	import type { CoreTechnologies } from "$lib/types/CoreTechnologies";
 	import HeaderTitle from "$lib/components/HeaderTitle.svelte";
+	import { getRepoMetadata, data, getPinnedProjects } from "$lib/data/projects";
+	import { onMount } from "svelte";
+	import { fadeFly } from "$lib/transitions/transitions";
+	import { stagger } from "$lib/utils/staggeredCount";
+	import type { CoreTechnologies } from "$lib/types/CoreTechnologies";
 
 	let greetingText = $state("");
 	let greetingIndex = 0;
-
-	let count: number = 0;
-	let staggerFunc = (reset: boolean): number => {
-		if (reset) {
-			count = 0;
-		}
-		return count++ * 50;
-	};
 
 	const coreTechnologies: CoreTechnologies[] = [
 		{
@@ -25,7 +18,7 @@
 		},
 		{
 			category: "Frameworks",
-			technologies: ["Spring Boot", "Svelte", ".NET", "React"],
+			technologies: ["Spring Boot", "Svelte", "React"],
 		},
 		{
 			category: "Tools & Infrastructure",
@@ -40,7 +33,7 @@
 		},
 	];
 
-	const greetings = [
+	const greetings: string[] = [
 		"Hello",
 		"Hola",
 		"Bonjour",
@@ -126,6 +119,7 @@
 	title="Home"
 	description="Portfolio of Daniel Villavicencio - Software Engineer specializing in full-stack web development and modern backend frameworks"
 />
+
 <main class="flex flex-col items-center gap-10 sm:gap-18 md:gap-24">
 	<!-- Hero banner -->
 	<section
@@ -133,25 +127,25 @@
 	>
 		<div class="gap-6 max-w-6xl p-8 flex flex-col items-center justify-center">
 			<h3
-				in:fadeFly|global={{ delay: staggerFunc(false), duration: 300, y: 20 }}
+				in:fadeFly|global={{ delay: stagger(false), duration: 300, y: 20 }}
 				class="text-lg text-bright font-semibold"
 			>
 				{greetingText}<span>, my name is</span>
 			</h3>
 			<h1
-				in:fadeFly|global={{ delay: staggerFunc(false), duration: 300, y: 20 }}
+				in:fadeFly|global={{ delay: stagger(false), duration: 300, y: 20 }}
 				class="font-bold text-center text-bright text-6xl md:text-7xl"
 			>
 				Daniel Villavicencio
 			</h1>
 			<p
-				in:fadeFly|global={{ delay: staggerFunc(false), duration: 300, y: 20 }}
+				in:fadeFly|global={{ delay: stagger(false), duration: 300, y: 20 }}
 				class="text-xl md:text-2xl text-default font-medium tracking-wide"
 			>
 				Software Engineer
 			</p>
 			<h2
-				in:fadeFly|global={{ delay: staggerFunc(false), duration: 300, y: 20 }}
+				in:fadeFly|global={{ delay: stagger(false), duration: 300, y: 20 }}
 				class="text-center text-bright text-md"
 			>
 				Backend engineer specializing in distributed systems, cloud
@@ -166,7 +160,7 @@
 				<a
 					href="/contact"
 					in:fadeFly|global={{
-						delay: staggerFunc(false),
+						delay: stagger(false),
 						duration: 300,
 						y: 20,
 					}}
@@ -182,7 +176,7 @@
 					href="/projects"
 					aria-label="Portfolio button"
 					in:fadeFly|global={{
-						delay: staggerFunc(false),
+						delay: stagger(false),
 						duration: 300,
 						y: 20,
 					}}
@@ -208,7 +202,7 @@
 	<!-- Featured Projects -->
 	<section
 		id="projects"
-		in:fadeFly={{ delay: staggerFunc(true), duration: 300 }}
+		in:fadeFly={{ delay: stagger(true), duration: 300 }}
 		class="relative max-w-6xl px-8 py-4 flex flex-col items-center gap-6"
 	>
 		<h2 class="text-2xl text-bright text-center font-semibold">
@@ -233,14 +227,17 @@
 	<!-- Core Technologies -->
 	<section class="relative max-w-6xl px-8 py-4 flex flex-col gap-6">
 		<h2
-			in:fadeFly={{ delay: staggerFunc(true), duration: 300, y: 20 }}
+			in:fadeFly={{ delay: stagger(true), duration: 300, y: 20 }}
 			class="text-2xl text-bright text-center font-semibold"
 		>
 			Core Technologies
 		</h2>
+		<p class="text-sm text-center">
+			Programming languages, frameworks, and technologies I use on the regular
+		</p>
 		{#each coreTechnologies as tech}
 			<h3
-				in:fadeFly|global={{ delay: staggerFunc(true), duration: 150, y: 20 }}
+				in:fadeFly|global={{ delay: stagger(true), duration: 150, y: 20 }}
 				class="font-semibold text-lg text-bright text-center"
 			>
 				{tech.category}
@@ -249,7 +246,7 @@
 				{#each tech.technologies as elem}
 					<div
 						in:fadeFly|global={{
-							delay: staggerFunc(false),
+							delay: stagger(false),
 							duration: 200,
 							y: 20,
 						}}
@@ -264,7 +261,7 @@
 
 	<!-- Learn more about me -->
 	<section
-		in:fadeFly={{ delay: staggerFunc(true), duration: 300, y: 20 }}
+		in:fadeFly={{ delay: stagger(true), duration: 300, y: 20 }}
 		class="relative px-8"
 	>
 		<div class="flex flex-col gap-6 p-4 items-center">

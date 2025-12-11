@@ -129,6 +129,66 @@
 */
 @layer base {
   html, body {
-    @apply p-0 m-0 min-h-screen text-default bg-bg-default;
+    @apply p-0 m-0 flex flex-col min-h-screen text-default bg-bg-default;
+  }
+}
+
+.prose {
+  h1 > a {
+    @apply text-4xl sm:text-5xl font-semibold text-bright no-underline
+  }
+
+  h2 > a{
+    @apply text-3xl sm:text-4xl font-semibold text-bright no-underline
+  }
+
+  h3 > a {
+    @apply text-2xl sm:text-3xl font-semibold text-bright no-underline
+  }
+
+  h4 > a{
+    @apply text-xl sm:text-2xl font-semibold text-bright no-underline
+  }
+
+  h1, h2, h3, h4, h5, p {
+    @apply mt-0 mb-6
+  }
+
+  /*
+   * Code blocks with single back ticks
+   */
+  code:not(pre code) {
+    @apply text-bright/85 px-1 bg-bg-card text-sm sm:text-base
+  }
+
+  /*
+   * Remove back ticks from pseudo-elements before/after
+   */
+  code:not(pre code)::after, code:not(pre code)::before {
+    display: none;
+  }
+
+  pre {
+    background-color: #1e1e2e
+  }
+
+  p, li, ol {
+    @apply text-base text-default
+  }
+
+  li::marker {
+    @apply text-base text-bright
+  }
+
+  strong {
+    @apply text-base text-bright font-semibold
+  }
+
+  a:not(.heading-anchor) {
+    @apply text-base font-normal text-default cursor-pointer
+  }
+
+  a:hover:not(.heading-anchor) {
+    @apply underline text-cyan-600
   }
 }
