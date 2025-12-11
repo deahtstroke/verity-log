@@ -29,7 +29,7 @@
 	description="Technical writing and software development insights"
 />
 
-<main class="bg-bg-default flex flex-col items-center px-8 gap-8 sm:gap-12">
+<main class="bg-bg-default flex flex-col items-center p-8 gap-8 sm:gap-12">
 	<section class="flex flex-col gap-6 items-center py-12">
 		<h1
 			in:fadeFly={{ delay: stagger(false, 1), duration: 300, y: 20 }}
@@ -42,7 +42,7 @@
 			class="text-lg text-default text-center"
 		>
 			Technical writing and development insights on projects I'm currently
-			working on.
+			working on
 		</p>
 	</section>
 	<section class="max-w-6xl relative flex flex-col gap-6 items-center">

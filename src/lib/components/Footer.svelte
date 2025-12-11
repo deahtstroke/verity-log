@@ -58,8 +58,10 @@
 	];
 </script>
 
-<footer class="bg-bg-dark/40 max-w-6xl text-sm text-gray-400 px-8 py-8 mt-8">
-	<div class="flex flex-col gap-8 items-center">
+<footer
+	class="w-full bg-bg-dark/40 flex flex-col items-center text-sm text-gray-400 px-8 py-8 mt-8 mb-0"
+>
+	<div class="max-w-6xl flex flex-col gap-8 items-center">
 		<div class="grid grid-cols-[1fr_1fr] gap-6 sm:gap-10 md:20 items-start">
 			<section class="grid grid-cols-1 gap-2">
 				<h2 class="text-default text-lg font-semibold">Quick Links</h2>
