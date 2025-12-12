@@ -80,9 +80,9 @@
 	experience in a wide variety of technologies and specializing in backend development"
 />
 <main
-	class="flex flex-col max-w-4xl mx-auto p-8 gap-10 sm:gap-18 items-center md:gap-24"
+	class="flex flex-col max-w-4xl mx-auto px-8 gap-10 sm:gap-18 items-center md:gap-24"
 >
-	<section class="flex flex-col gap-6">
+	<section class="flex flex-col py-12 gap-6">
 		<h1
 			in:fadeFly={{ delay: fadeCount(), duration: 300, y: 20 }}
 			class="text-bright text-5xl md:text-7xl font-bold text-center"

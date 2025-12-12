@@ -2,7 +2,7 @@ import type { Post } from "$lib/types/Post";
 
 export default function getPosts(): Post[] {
 	const posts: Post[] = [];
-	const paths = import.meta.glob("../../lib/posts/*.md", { eager: true })
+	const paths = import.meta.glob("../../lib/posts/**.md", { eager: true })
 
 	for (const path in paths) {
 		const file = paths[path];

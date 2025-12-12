@@ -173,7 +173,7 @@
   }
 
   pre {
-    background-color: #1e1e2e
+    @apply bg-bg-default
   }
 
   p, li, ol {
