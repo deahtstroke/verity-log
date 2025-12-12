@@ -14,4 +14,6 @@ export const load: LayoutLoad = async ({ params, url }) => {
 	} catch (e) {
 		error(404, `Could not find ${params.slug}`)
 	}
-} 
+}
+
+export const prerender: boolean = true;
