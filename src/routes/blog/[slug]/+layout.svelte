@@ -8,13 +8,6 @@
 	let { children, data }: { children: Snippet; data: LayoutData } = $props();
 </script>
 
-<svelte:head>
-	<meta property="og:title" content={data.metadata.title} />
-	<meta property="og:description" content={data.metadata.description} />
-	<meta property="og:url" content={data.url} />
-	<meta property="og:image" content="/manatee.png" />
-</svelte:head>
-
 <article class="max-w-3xl gap-4 mx-auto px-8 py-4 flex flex-col items-center">
 	<header class="flex flex-col gap-4 border-b border-neutral-800 pb-8 mb-12">
 		<a
