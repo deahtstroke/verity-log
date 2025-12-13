@@ -11,7 +11,7 @@
 <svelte:head>
 	<meta property="og:title" content={data.metadata.title} />
 	<meta property="og:description" content={data.metadata.description} />
-	<meta property="og.url" content={data.href} />
+	<meta property="og:url" content={data.url} />
 	<meta property="og:image" content="/manatee.png" />
 </svelte:head>
 

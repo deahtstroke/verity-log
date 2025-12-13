@@ -2,13 +2,15 @@ import { error } from '@sveltejs/kit';
 import type { MdsvexModule } from '*.md'
 import type { LayoutLoad } from './$types';
 
-export const load: LayoutLoad = async ({ params, url }) => {
+const ORIGIN = "https://danielvm.dev/blog"
+
+export const load: LayoutLoad = async ({ params }) => {
 	try {
 		const post = await import(`$lib/posts/${params.slug}.md`) as MdsvexModule;
 		return {
 			content: post.default,
 			metadata: post.metadata,
-			href: url.href
+			url: `${ORIGIN}/${params.slug}`
 		};
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	} catch (e) {
