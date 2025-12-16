@@ -20,7 +20,7 @@ const config = {
 		highlight: {
 			highlighter: async (code, lang = 'text') => {
 				const highlighter = await highlighterPromise
-				await highlighter.loadLanguage('go', 'json');
+				await highlighter.loadLanguage('go', 'json', 'svelte', 'mermaid', 'markdown');
 				const html = escapeSvelte(highlighter.codeToHtml(code, { lang, theme: 'catppuccin-mocha' }));
 				return `{@html \`${html}\`}`
 			}
