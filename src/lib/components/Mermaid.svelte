@@ -1,14 +1,26 @@
 <script lang="ts">
-	let rendered: boolean = $state(true);
-	let { height = 400, code = "" } = $props();
+	import { onMount } from "svelte";
+	import mermaid from "mermaid";
+	import { Spinner } from "flowbite-svelte";
+
+	let svg = $state("");
+	let rendered: boolean = $state(false);
+
+	mermaid.initialize({ theme: "dark", startOnLoad: false });
+	onMount(async () => {
+		const id = `mermaid-${crypto.randomUUID()}`;
+		const { svg: output } = await mermaid.render(id, code);
+		svg = output;
+		rendered = true;
+	});
+
+	let { code = "" } = $props();
 </script>
 
-<div class="container" style:height>
-	{#if rendered}
-		<pre class="mermaid">
-			{code}
-		</pre>
-	{:else}
-		<pre>Nothing to see here!</pre>
+<div class="flex flex-col my-8">
+	{#if !rendered}
+		<Spinner color="sky" />
 	{/if}
+
+	{@html svg}
 </div>
