@@ -41,7 +41,8 @@ const config = {
 		adapter: adapter(),
 		prerender: {
 			entries: [
-				"/blog/protheon"
+				"/blog/protheon",
+				"/blog/mermaid-svelte"
 			]
 		}
 	},
