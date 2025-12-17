@@ -18,4 +18,5 @@ export const load: LayoutLoad = async ({ params }) => {
 	}
 }
 
+export const ssr: boolean = true;
 export const prerender: boolean = true;
