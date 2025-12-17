@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { FolderDotIcon, Mail, ArrowRight, ChevronDown } from "lucide-svelte";
 	import ProjectCard from "$lib/components/ProjectCard.svelte";
-	import HeaderTitle from "$lib/components/HeaderTitle.svelte";
+	import Metadata from "$lib/components/Metadata.svelte";
 	import { getRepoMetadata, data, getPinnedProjects } from "$lib/data/projects";
 	import { onMount } from "svelte";
 	import { fadeFly } from "$lib/transitions/transitions";
@@ -52,7 +52,7 @@
 		let charIndex: number = 0;
 		let isDeleting: boolean = false;
 		let isPaused: boolean = false;
-		let timeoutId: NodeJS.Timeout;
+		let timeoutId: any;
 
 		const type: () => void = () => {
 			const currentGreeting = greetings[greetingIndex];
@@ -115,9 +115,14 @@
 	}
 </script>
 
-<HeaderTitle
-	title="Home"
-	description="Portfolio of Daniel Villavicencio - Software Engineer specializing in full-stack web development and modern backend frameworks"
+<Metadata
+	title="DanielVM – Software Projects, Blog & Insights"
+	description="Explore Daniel Villavicencio's portfolio of software projects, blog posts, and development insights. Learn more about his insights in full-stack technologies."
+	ogTitle="DanielVM – Software Projects, Blog & Insights"
+	ogDescription="Explore Daniel Villavicencio's portfolio of software projects, blog posts, and development insights. Learn more about his insights in full-stack technologies."
+	ogUrl="https://www.danielvm.dev"
+	ogImage="https://www.danielvm.dev/manatee.png"
+	ogType="website"
 />
 
 <main class="flex flex-col items-center gap-10 sm:gap-18 md:gap-24">
@@ -126,12 +131,12 @@
 		class="relative flex flex-col items-center justify-center w-full h-[calc(100vh-4rem)] bg-linear-to-br from-slate-700 via-blue-700 to-cyan-600 animate-gradient-shift"
 	>
 		<div class="gap-6 max-w-6xl p-8 flex flex-col items-center justify-center">
-			<h3
+			<p
 				in:fadeFly|global={{ delay: stagger(false), duration: 300, y: 20 }}
 				class="text-lg text-bright font-semibold"
 			>
 				{greetingText}<span>, my name is</span>
-			</h3>
+			</p>
 			<h1
 				in:fadeFly|global={{ delay: stagger(false), duration: 300, y: 20 }}
 				class="font-bold text-center text-bright text-6xl md:text-7xl"
@@ -265,9 +270,9 @@
 		class="relative px-8"
 	>
 		<div class="flex flex-col gap-6 p-4 items-center">
-			<h1 class="text-xl text-bright text-center font-bold">
+			<h2 class="text-xl text-bright text-center font-bold">
 				Learn more about my journey
-			</h1>
+			</h2>
 			<p class="text-sm text-default text-center">
 				Learn about my philosophy, career milestones, and what I'm currently
 				focused on building

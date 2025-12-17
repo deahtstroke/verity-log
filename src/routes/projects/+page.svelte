@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ArrowDown, ArrowUp, Search, X } from "lucide-svelte";
 	import ProjectCard from "$lib/components/ProjectCard.svelte";
-	import HeaderTitle from "$lib/components/HeaderTitle.svelte";
+	import Metadata from "$lib/components/Metadata.svelte";
 
 	import { data as projects, getRepoMetadata } from "$lib/data/projects";
 	import { fadeFly } from "$lib/transitions/transitions";
@@ -80,10 +80,14 @@
 	});
 </script>
 
-<HeaderTitle
-	title="Projects"
-	description="Showcase of Daniel Villavicencio's projects across several disciplines 
-	and a wide range of technologies"
+<Metadata
+	title="Projects – DanielVM | Software Portfolio & Full-Stack Engineering"
+	description="Explore Daniel Villavicencio's software projects, showcasing full-stack engineering skills, distributed systems, and practical development solutions."
+	ogTitle="Projects – DanielVM | Software Portfolio & Full-Stack Engineering"
+	ogDescription="Explore Daniel Villavicencio's software projects, showcasing full-stack engineering skills, distributed systems, and practical development solutions."
+	ogUrl="https://www.danielvm.dev/projects"
+	ogImage="https://www.danielvm.dev/manatee.png"
+	ogType="website"
 />
 
 <main class="w-full px-8">
