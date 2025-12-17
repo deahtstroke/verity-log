@@ -79,9 +79,7 @@
 	description="Learn more about Daniel Villavicencio, a passionate software engineer with 
 	experience in a wide variety of technologies and specializing in backend development"
 />
-<main
-	class="flex flex-col max-w-4xl mx-auto px-8 gap-10 sm:gap-18 items-center md:gap-24"
->
+<main class="flex flex-col max-w-3xl mx-auto px-8 gap-8 sm:gap-12 items-center">
 	<section class="flex flex-col py-12 gap-6">
 		<h1
 			in:fadeFly={{ delay: fadeCount(), duration: 300, y: 20 }}

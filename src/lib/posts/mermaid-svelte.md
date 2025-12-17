@@ -11,12 +11,13 @@ colorEnd: "345 100% 50%"
 
 <script>
     import Mermaid from '$lib/components/Mermaid.svelte';
+
     const existingPipeline = `
-    flowchart LR;
+    flowchart LR
 	A[Markdown File<br />.md/ .svx] --> B[Mdsvex<br />Markdown -> Svelte Component]
 	B --> C[Shiki <br /> Syntax Highlighting]
 	C --> D[Svelte Compiler & Render]
-	D --> E[HTML Output<br />+ Framework Marker]
+	D --> E[HTML, CSS & JS Output]
     `
 
     const mdsvexUnifiedPipeline = `
@@ -355,3 +356,17 @@ they actually work and avoids brittle interactions with the markdown pipeline.
 In exchange, this approach provides predictable rendering, avoids hydration issues,
 and keeps diagram logic isolated from unrelated preprocessing steps like syntax
 highlighting.
+
+## When This Approach Makes Sense
+
+This approach works best in content-heavy Svelte sites where diagrams are just
+part of the presentation, not the primary payload. Blogs, documentation sites,
+and personal knowledge bases are good example, especially when diagrams are used
+to support an explanation rather than stand alone.
+
+It also makes sense when you already rely on client-side Javascript and are
+comfortable trading some markdown ergonomics for predictable rendering. Is
+best to not meddle too much with the rendering pipeline for Mdsvex or Svelte's
+preprocessing capabilities if you're not too comfortable with it. This isn't
+a discouragement from exploring Svelte's internals, but more so a caution that
+you can encounter subtle and frustrating bugs with a more in-depth approach.

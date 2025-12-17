@@ -16,7 +16,7 @@
 </svelte:head>
 
 <article class="max-w-3xl gap-4 mx-auto px-8 py-4 flex flex-col items-center">
-	<header class="flex flex-col gap-4 border-b border-neutral-800 pb-8 mb-12">
+	<header class="flex flex-col gap-4 border-b border-neutral-800 pb-8">
 		<a
 			href="/blog"
 			aria-label="Go back"

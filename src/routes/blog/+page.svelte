@@ -50,7 +50,7 @@
 			{#each data.posts as post}
 				<a href="/blog/{post.slug}">
 					<article
-						class="flex flex-col sm:flex-row gap-6 sm:items-center"
+						class="flex flex-col sm:flex-row gap-6 sm:items-center hover:scale-102 transition-transform"
 						in:fadeFly|global={{
 							delay: stagger(true, 1),
 							duration: 300,
@@ -62,7 +62,7 @@
 							<div
 								class="w-full h-36 rounded-lg overflow-hidden bg-linear-to-br
 								from-primary/20 to-accent/20 flex items-center justify-center
-								border border-border group-hover:border-primary/50 transition-colors font-mono text-bright"
+								border border-border transition-colors font-mono text-bright"
 								style="background: linear-gradient(135deg, hsl({post.colorStart}), hsl({post.colorEnd}))"
 							>
 								{post.thumbnailText}
@@ -74,6 +74,11 @@
 								Published {formatDate(post.date)}
 							</p>
 							<p class="text-default">{trimDescription(post.description)}</p>
+							<span
+								class="sm:hidden mt-2 text-sm text-defaul inline-flex items-center gap-1"
+							>
+								Read more <span aria-hidden>→</span>
+							</span>
 						</div>
 					</article>
 				</a>
