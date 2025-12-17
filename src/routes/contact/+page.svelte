@@ -14,7 +14,7 @@
 	import { onMount } from "svelte";
 	import { fadeFly } from "$lib/transitions/transitions";
 	import type { ContactRequest, InquiryType } from "$lib/types/ContactRequest";
-	import HeaderTitle from "$lib/components/HeaderTitle.svelte";
+	import Metadata from "$lib/components/Metadata.svelte";
 
 	const inquiries: InquiryType[] = [
 		"General Inquiry",
@@ -180,10 +180,14 @@
 	});
 </script>
 
-<HeaderTitle
-	title="Contact"
-	description="Get in Touch with Daniel Villavicencio for collaboration, freelance work, or professional inquiries 
-	in web development. Or shoot him a message about a bug!"
+<Metadata
+	title="Contact – DanielVM | Full-Stack Engineer"
+	description="Get in touch with Daniel Villavicencio, a full-stack engineer. Reach out for collaboration, project inquiries, or consulting opportunities. Or shoot him a message about a bug."
+	ogTitle="Contact – DanielVM | Full-Stack Engineer"
+	ogDescription="Get in touch with Daniel Villavicencio, a full-stack engineer. Reach out for collaboration, project inquiries, or consulting opportunities. Or shoot him a message about a bug."
+	ogUrl="https://www.danielvm.dev/contact"
+	ogImage="https://www.danielvm.dev/manatee.png"
+	ogType="website"
 />
 
 <main class="w-full px-8">

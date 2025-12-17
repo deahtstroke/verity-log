@@ -11,7 +11,7 @@
 		Target,
 	} from "lucide-svelte";
 	import { fadeFly } from "$lib/transitions/transitions";
-	import HeaderTitle from "$lib/components/HeaderTitle.svelte";
+	import Metadata from "$lib/components/Metadata.svelte";
 
 	let count: number = 0;
 
@@ -74,11 +74,20 @@
 	];
 </script>
 
-<HeaderTitle
-	title="About"
-	description="Learn more about Daniel Villavicencio, a passionate software engineer with 
-	experience in a wide variety of technologies and specializing in backend development"
+<Metadata
+	title="About – Daniel Villavicencio | Developer & Blogger"
+	description="Learn more about Daniel Villavicencio, a passionate software engineer and
+	technical blogger. Discover his projects, skills, and areas of expertise in both frontend
+	and backend development."
+	ogTitle="About – Daniel Villavicencio | Developer & Blogger"
+	ogDescription="Learn more about Daniel Villavicencio, a passionate software engineer and
+	technical blogger. Discover his projects, skills, and areas of expertise in both frontend
+	and backend development."
+	ogUrl="https://danielvm.dev/about"
+	ogImage="https://danielvm.dev/manatee.png"
+	ogType="website"
 />
+
 <main class="flex flex-col max-w-3xl mx-auto px-8 gap-8 sm:gap-12 items-center">
 	<section class="flex flex-col py-12 gap-6">
 		<h1
