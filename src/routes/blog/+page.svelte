@@ -77,7 +77,7 @@
 							<span
 								class="sm:hidden mt-2 text-sm text-defaul inline-flex items-center gap-1"
 							>
-								Read more <span aria-hidden>→</span>
+								Read more <span>→</span>
 							</span>
 						</div>
 					</article>
