@@ -9,38 +9,6 @@ colorStart: "45 100% 50%"
 colorEnd: "345 100% 50%"
 ---
 
-<script>
-    import Mermaid from '$lib/components/Mermaid.svelte';
-
-    const existingPipeline = `
-    flowchart LR
-	A[Markdown File<br />.md/ .svx] --> B[Mdsvex<br />Markdown -> Svelte Component]
-	B --> C[Shiki <br /> Syntax Highlighting]
-	C --> D[Svelte Compiler & Render]
-	D --> E[HTML, CSS & JS Output]
-    `
-
-    const mdsvexUnifiedPipeline = `
-    flowchart TB
-    A[Raw Markdown File<br/>.md/.svx] --> B[Mdsvex Pipeline]
-
-    subgraph Mdsvex Transform
-        B --> C[Markdown Parser / mdsvex_parser]
-        C --> D[Escape Brackets & Code]
-        D --> E[Shiki Highlighting<br/>highlight_blocks]
-        E --> F[remark2rehype<br/>Markdown AST → HTML AST]
-        F --> G[rehype Plugins<br/>Mermaid plugin, etc.]
-        G --> H[Stringify HAST → HTML Output]
-    end
-
-    %% Highlight the conflict
-    style E fill:#ff4d4d,stroke:#ffffff,stroke-width:1px
-    style G fill:#ff4d4d,stroke:#ffffff,stroke-width:1px
-
-    E -->|Transforms code blocks & escapes characters before Mermaid can run| G
-    `
-</script>
-
 ## Overview
 
 When I built the blog section of my site and published my first post, I
@@ -62,7 +30,13 @@ Mermaid reads Mermaid-specific code and transforms it into a diagram, and
 the result is rendered by Svelte. A more visual representation of this pipeline
 is the following:
 
-<Mermaid code={existingPipeline} />
+``` mermaid
+flowchart LR
+    A[Markdown File<br />.md/ .svx] --> B[Mdsvex<br />Markdown -> Svelte Component]
+    B --> C[Shiki <br /> Syntax Highlighting]
+    C --> D[Svelte Compiler & Render]
+    D --> E[HTML, CSS & JS Output]
+```
 
 It felt reasonable to assume that a Mermaid
 diagram defined in a triple-backtick code block would survive this pipeline intact.
@@ -135,7 +109,25 @@ In Mdsvex, however, that window closes much earlier than expected.
 
 Here’s a simplified view of Mdsvex’s rendering pipeline.
 
-<Mermaid code={mdsvexUnifiedPipeline} />
+``` mermaid
+ flowchart TB
+    A[Raw Markdown File<br/>.md/.svx] --> B[Mdsvex Pipeline]
+
+    subgraph Mdsvex Transform
+        B --> C[Markdown Parser / mdsvex_parser]
+        C --> D[Escape Brackets & Code]
+        D --> E[Shiki Highlighting<br/>highlight_blocks]
+        E --> F[remark2rehype<br/>Markdown AST → HTML AST]
+        F --> G[rehype Plugins<br/>Mermaid plugin, etc.]
+        G --> H[Stringify HAST → HTML Output]
+    end
+
+    %% Highlight the conflict
+    style E fill:#ff4d4d,stroke:#ffffff,stroke-width:1px
+    style G fill:#ff4d4d,stroke:#ffffff,stroke-width:1px
+
+    E -->|Transforms code blocks & escapes characters before Mermaid can run| G
+```
 
 The real constraint is the order of operations. Syntax highlighting via Shiki
 runs early in Mdsvex's unified pipeline, before Remark or Rehype plugins can
@@ -205,9 +197,9 @@ Here's the `Mermaid` component:
 
     mermaid.initialize({ theme: "dark", startOnLoad: false })
     onMount(async () => {
-	    const id = `mermaid-${crypto.randomUUID}`;
-	    const { svg: output } = await mermaid.render(id, code);
-	    svg = output;
+	const id = `mermaid-${crypto.randomUUID}`;
+	const { svg: output } = await mermaid.render(id, code);
+	svg = output;
     })
 </script>
 

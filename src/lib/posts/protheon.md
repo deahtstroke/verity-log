@@ -9,48 +9,8 @@ colorStart: "300 100% 50%"
 colorEnd: "180 100% 50%"
 ---
 
-<script>
-    import Mermaid from '$lib/components/Mermaid.svelte';
-    const architectureDiagram = `
-    flowchart LR
-	subgraph MasterNode[Master Node]
-	    direction TB
-	    M1[Scan & Organize Files] --> M2[Create Job Metadata] --> M3[Publish Jobs] --> M4[Track Progress and Telemetry]
-	end
-	subgraph Workers[Worker Nodes]
-	    W1[Worker Instances]
-	end
-	RabbitMQ[(RabbitMQ)]
-	Postgres[(Postgres DB)]
-	Storage[(File Storage / Workspace)]
-	%% Relationships
-	MasterNode-->|Reads Files| Storage
-	MasterNode-->|Publishes Jobs| RabbitMQ
-	Workers-->|Fetch Jobs| RabbitMQ
-	Workers<-->|Stream File Chunks| MasterNode
-	Workers-->|Write Results| Postgres
-	MasterNode-->|Store Metadata| Postgres
-	Workers-->|Signal Done| MasterNode
-    `
-
-    const jobSequenceDiagram = `
-    sequenceDiagram
-	participant Master
-	participant Worker
-	participant RabbitMQ
-	participant Postgres
-	Master->>Master: Decompress/Split files
-	Master->>RabbitMQ: Push job(s)
-	Worker->>RabbitMQ: Request job
-	RabbitMQ->>Worker: Deliver job
-	Worker->>Master: Stream file chunks
-	Worker->>Worker: ETL operations
-	Worker->>Postgres: Save to DB
-	Worker->>Master: Signal done
-    `
-</script>
-
 ## What is Protheon?
+
 [Protheon](https://www.github.com/deahtstroke/protheon) grew out of work I
 had started on a larger system, [RivenBot](https://www.github.com/Riven-of-a-Thousand-Servers),
 which relied on a sizeable dataset that needed heavy preprocessing. The original
@@ -96,7 +56,27 @@ delivery, and decouples the producer from worker nodes.
 Below is a diagram showing how these different components interact with
 each other.
 
-<Mermaid code={architectureDiagram} />
+``` mermaid
+flowchart LR
+    subgraph MasterNode[Master Node]
+	direction TB
+	M1[Scan & Organize Files] --> M2[Create Job Metadata] --> M3[Publish Jobs] --> M4[Track Progress and Telemetry]
+    end
+    subgraph Workers[Worker Nodes]
+	W1[Worker Instances]
+    end
+    RabbitMQ[(RabbitMQ)]
+    Postgres[(Postgres DB)]
+    Storage[(File Storage / Workspace)]
+    %% Relationships
+    MasterNode-->|Reads Files| Storage
+    MasterNode-->|Publishes Jobs| RabbitMQ
+    Workers-->|Fetch Jobs| RabbitMQ
+    Workers<-->|Stream File Chunks| MasterNode
+    Workers-->|Write Results| Postgres
+    MasterNode-->|Store Metadata| Postgres
+    Workers-->|Signal Done| MasterNode
+```
 
 ## Job Lifecycle
 
@@ -111,7 +91,21 @@ The lifecycle below shows how one job moves through the system from the
 moment the master node publishes it, to the worker pulling it,
 streaming the required file chunks, processing them, and committing results to Postgres.
 
-<Mermaid code={jobSequenceDiagram} />
+```mermaid
+sequenceDiagram
+    participant Master
+    participant Worker
+    participant RabbitMQ
+    participant Postgres
+    Master->>Master: Decompress/Split files
+    Master->>RabbitMQ: Push job(s)
+    Worker->>RabbitMQ: Request job
+    RabbitMQ->>Worker: Deliver job
+    Worker->>Master: Stream file chunks
+    Worker->>Worker: ETL operations
+    Worker->>Postgres: Save to DB
+    Worker->>Master: Signal done
+```
 
 ## The Master Node
 

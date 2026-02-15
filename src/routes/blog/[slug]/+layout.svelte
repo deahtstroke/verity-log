@@ -4,6 +4,22 @@
 	import { type Snippet } from "svelte";
 	import { type LayoutData } from "./$types";
 	import { ArrowLeft } from "lucide-svelte";
+	import { onMount } from "svelte";
+	import { browser } from "$app/environment";
+
+	onMount(async () => {
+		if (browser) {
+			const mermaid = (await import("mermaid")).default;
+
+			mermaid.initialize({
+				startOnLoad: true,
+				theme: "dark",
+				securityLevel: "loose",
+			});
+
+			await mermaid.run();
+		}
+	});
 
 	let { children, data }: { children: Snippet; data: LayoutData } = $props();
 </script>

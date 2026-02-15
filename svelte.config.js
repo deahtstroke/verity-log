@@ -19,6 +19,11 @@ const config = {
 		extensions: [".md", ".svx"],
 		highlight: {
 			highlighter: async (code, lang = 'text') => {
+				if (lang === 'mermaid') {
+					// Return a raw div that the client-side library will target
+					// We wrap in {@html} to ensure Svelte doesn't parse it
+					return `{@html \`<pre class="mermaid">${code}</pre>\`}`;
+				}
 				const highlighter = await highlighterPromise
 				await highlighter.loadLanguage('go', 'json', 'svelte', 'mermaid', 'markdown');
 				const html = escapeSvelte(highlighter.codeToHtml(code, { lang, theme: 'catppuccin-mocha' }));

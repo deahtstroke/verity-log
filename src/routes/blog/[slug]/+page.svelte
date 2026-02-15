@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { PageProps } from "./$types";
 	import Metadata from "$lib/components/Metadata.svelte";
-	import { onMount } from "svelte";
 
 	let data: PageProps = $props();
 </script>
