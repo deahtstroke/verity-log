@@ -1,6 +1,6 @@
 ---
 title: "Using Mermaid Diagrams in Svelte 5 (continued)"
-description: "My SvelteKit setup for markdown blog notes using Mdsvex and Mermaid for diagramming"
+description: "My SvelteKit setup for markdown-native Mermaid diagrams, no need for Svelte Components"
 date: '2026-02-14'
 thumbnailText: "Mermaid & Svelte"
 categories: ["Svelte", "Markdown", "Shiki", "Mermaid", "Mdsvex", "CloudFlare"]
