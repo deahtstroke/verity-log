@@ -1,3 +1,4 @@
+@import 'rehype-callouts/theme/github';
 @import 'tailwindcss';
 @plugin 'flowbite/plugin';
 @plugin '@tailwindcss/typography';
@@ -7,8 +8,8 @@
 @font-face {
   font-family: 'Satoshi-Light';
   src: url('/fonts/Satoshi-Light.woff2') format('woff2'),
-       url('/fonts/Satoshi-Light.woff') format('woff'),
-       url('/fonts/Satoshi-Light.ttf') format('truetype');
+    url('/fonts/Satoshi-Light.woff') format('woff'),
+    url('/fonts/Satoshi-Light.ttf') format('truetype');
   font-weight: 300;
   font-display: swap;
   font-style: normal;
@@ -17,8 +18,8 @@
 @font-face {
   font-family: 'Satoshi-LightItalic';
   src: url('/fonts/Satoshi-LightItalic.woff2') format('woff2'),
-       url('/fonts/Satoshi-LightItalic.woff') format('woff'),
-       url('/fonts/Satoshi-LightItalic.ttf') format('truetype');
+    url('/fonts/Satoshi-LightItalic.woff') format('woff'),
+    url('/fonts/Satoshi-LightItalic.ttf') format('truetype');
   font-weight: 300;
   font-display: swap;
   font-style: italic;
@@ -27,8 +28,8 @@
 @font-face {
   font-family: 'Satoshi-Regular';
   src: url('/fonts/Satoshi-Regular.woff2') format('woff2'),
-       url('/fonts/Satoshi-Regular.woff') format('woff'),
-       url('/fonts/Satoshi-Regular.ttf') format('truetype');
+    url('/fonts/Satoshi-Regular.woff') format('woff'),
+    url('/fonts/Satoshi-Regular.ttf') format('truetype');
   font-weight: 400;
   font-display: swap;
   font-style: normal;
@@ -37,8 +38,8 @@
 @font-face {
   font-family: 'Satoshi-Italic';
   src: url('/fonts/Satoshi-Italic.woff2') format('woff2'),
-       url('/fonts/Satoshi-Italic.woff') format('woff'),
-       url('/fonts/Satoshi-Italic.ttf') format('truetype');
+    url('/fonts/Satoshi-Italic.woff') format('woff'),
+    url('/fonts/Satoshi-Italic.ttf') format('truetype');
   font-weight: 400;
   font-display: swap;
   font-style: italic;
@@ -47,8 +48,8 @@
 @font-face {
   font-family: 'Satoshi-Medium';
   src: url('/fonts/Satoshi-Medium.woff2') format('woff2'),
-       url('/fonts/Satoshi-Medium.woff') format('woff'),
-       url('/fonts/Satoshi-Medium.ttf') format('truetype');
+    url('/fonts/Satoshi-Medium.woff') format('woff'),
+    url('/fonts/Satoshi-Medium.ttf') format('truetype');
   font-weight: 500;
   font-display: swap;
   font-style: normal;
@@ -57,8 +58,8 @@
 @font-face {
   font-family: 'Satoshi-MediumItalic';
   src: url('/fonts/Satoshi-MediumItalic.woff2') format('woff2'),
-       url('/fonts/Satoshi-MediumItalic.woff') format('woff'),
-       url('/fonts/Satoshi-MediumItalic.ttf') format('truetype');
+    url('/fonts/Satoshi-MediumItalic.woff') format('woff'),
+    url('/fonts/Satoshi-MediumItalic.ttf') format('truetype');
   font-weight: 500;
   font-display: swap;
   font-style: italic;
@@ -67,8 +68,8 @@
 @font-face {
   font-family: 'Satoshi-Bold';
   src: url('/fonts/Satoshi-Bold.woff2') format('woff2'),
-       url('/fonts/Satoshi-Bold.woff') format('woff'),
-       url('/fonts/Satoshi-Bold.ttf') format('truetype');
+    url('/fonts/Satoshi-Bold.woff') format('woff'),
+    url('/fonts/Satoshi-Bold.ttf') format('truetype');
   font-weight: 700;
   font-display: swap;
   font-style: normal;
@@ -77,8 +78,8 @@
 @font-face {
   font-family: 'Satoshi-BoldItalic';
   src: url('/fonts/Satoshi-BoldItalic.woff2') format('woff2'),
-       url('/fonts/Satoshi-BoldItalic.woff') format('woff'),
-       url('/fonts/Satoshi-BoldItalic.ttf') format('truetype');
+    url('/fonts/Satoshi-BoldItalic.woff') format('woff'),
+    url('/fonts/Satoshi-BoldItalic.ttf') format('truetype');
   font-weight: 700;
   font-display: swap;
   font-style: italic;
@@ -87,8 +88,8 @@
 @font-face {
   font-family: 'Satoshi-Black';
   src: url('/fonts/Satoshi-Black.woff2') format('woff2'),
-       url('/fonts/Satoshi-Black.woff') format('woff'),
-       url('/fonts/Satoshi-Black.ttf') format('truetype');
+    url('/fonts/Satoshi-Black.woff') format('woff'),
+    url('/fonts/Satoshi-Black.ttf') format('truetype');
   font-weight: 900;
   font-display: swap;
   font-style: normal;
@@ -97,8 +98,8 @@
 @font-face {
   font-family: 'Satoshi-BlackItalic';
   src: url('/fonts/Satoshi-BlackItalic.woff2') format('woff2'),
-       url('/fonts/Satoshi-BlackItalic.woff') format('woff'),
-       url('/fonts/Satoshi-BlackItalic.ttf') format('truetype');
+    url('/fonts/Satoshi-BlackItalic.woff') format('woff'),
+    url('/fonts/Satoshi-BlackItalic.ttf') format('truetype');
   font-weight: 900;
   font-display: swap;
   font-style: italic;
@@ -119,7 +120,7 @@
   --color-border-light: #525252;
   --color-button-default: #282b2a;
   --color-button-border: #535554;
-  --color-secondary-button: #336e41; 
+  --color-secondary-button: #336e41;
   --color-secondary-button-border: #699276;
   --color-sidebar-menu: #191a1b;
   --font-satoshi: "Satoshi", sans-serif;
@@ -131,7 +132,9 @@
 * + Removing default padding and margins
 */
 @layer base {
-  html, body {
+
+  html,
+  body {
     @apply p-0 m-0 flex flex-col min-h-screen text-default bg-bg-default;
   }
 }
@@ -140,20 +143,23 @@
   @apply max-w-none w-full
 }
 
+/*
+ * Blog post styles for the markdown
+ */
 .prose {
-  h1 > a {
+  h1>a {
     @apply text-4xl sm:text-5xl font-semibold text-bright no-underline
   }
 
-  h2 > a{
+  h2>a {
     @apply text-3xl sm:text-4xl font-semibold text-bright no-underline
   }
 
-  h3 > a {
+  h3>a {
     @apply text-2xl sm:text-3xl font-semibold text-bright no-underline
   }
 
-  h4 > a{
+  h4>a {
     @apply text-xl sm:text-2xl font-semibold text-bright no-underline
   }
 
@@ -165,7 +171,7 @@
    * Code blocks with single back ticks
    */
   code:not(pre code) {
-    @apply text-bright/85 px-1 bg-bg-card text-sm sm:text-base
+    @apply font-mono text-bright/75 px-1 bg-bg-card text-sm
   }
 
   /*
@@ -173,6 +179,18 @@
    */
   code:not(pre code)::after, code:not(pre code)::before {
     display: none;
+  }
+
+  /*
+   * Remove the quotes from block quote content
+   */
+  blockquote *:after,
+  blockquote *:before {
+    display: none;
+  }
+
+  blockquote p {
+    @apply not-italic text-default/75
   }
 
   pre {
@@ -197,5 +215,9 @@
 
   a:hover:not(.heading-anchor) {
     @apply underline text-cyan-600
+  }
+
+  hr {
+    @apply border-[0.5px] border-bright/42
   }
 }
