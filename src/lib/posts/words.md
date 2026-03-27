@@ -5,8 +5,8 @@ date: '2026-03-27'
 thumbnailText: "Words"
 categories: ["Go", "TOML", "AST", "Programming Languages", "Syntax Trees"]
 published: true
-colorStart: "97 100% 50%"
-colorEnd: "180 100% 25%"
+colorStart: "1 100% 50%"
+colorEnd: "270 100% 25%"
 ---
 
 > _"The frustrating part about rabbit holes is that you only recognize
@@ -86,7 +86,7 @@ extension = ""
 ...
 ```
 
-Both formats, YAML and TOML, have Go libraries. Both have ATS representations you can work with, but they're not equal.
+Both formats, YAML and TOML, have Go libraries. Both have AST representations you can work with, but they're not equal.
 
 YAML's AST API is stable. You can parse a file into a tree, modify it with surgical precision, and marshal it back with predictable behavior. TOML also has an AST API -- but it's marked as unstable. The structure can change between minor versions and building a transformation layer on top of something that could silently rearrange itself felt like exactly the wrong foundation for a tool meant to make precise, reliable changes.
 
