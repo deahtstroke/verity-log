@@ -50,7 +50,7 @@ _Routing Mesh_. The routing mesh itself makes it easy for outside clients to
 access Swarm services through their published ports without knowing specific IP
 addresses and port combinations for any replicated services. It makes
 it easy to access, for example, a web-server container replicated
-three times across 3 different hosts without the client knowing
+three times across various hosts without the client knowing
 a specific `[host:port]` combination. Additionally, Swarm offers embedded
 DNS resolutions for services running in the Swarm through their service name.
 Instead of referring to Nginx by their IP address, you could make a request to
@@ -119,7 +119,7 @@ I even opened a [pull request in Docker Docs](https://www.github.com/docker/docs
 to see if this super niche compose configuration should be added to the Docker docs
 (It was not approved by the way). This was my original setup from
 months before I came back to continue the project. Even though the PR was
-rejected it did highlight something that one of the maintainers said in
+rejected, it did highlight something that one of the maintainers said in
 response to this change: "This is not the intended use of Docker Swarm", which
 made me realize that this was not the right approach to the problem. It was
 the easy approach, but not the best one.
@@ -144,17 +144,17 @@ realizing that this was the solution to my problem with the proxy.
 
 ## What I discovered
 
-The IPvlan Linux driver acts itself as a very light-weight middle-man
+The IPvlan Linux driver acts itself as a very lightweight middle-man
 between the container, and the host network. In comparison to other networks drivers,
 IPvlan and Macvlan kind of push the boundaries of network isolation in general.
 Whereas the normal bridge driver completely isolates containers from the host,
 due to it acting as a network switch and ethernet cables, the cables being
-virtual ethernet pairs, and the switch being a Linux bridge,
-the host driver offers little-to-no isolation since the container would
+virtual ethernet pairs, and the switch being a Linux bridge.
+The host driver, on the other hand, offers no isolation whatsoever since the container would
 share the same network stack as the host. Both IPvlan and Macvlan are in
 a gray area in-between these two drivers, or at least that's how
-I like to think about them. IPvlan requires three things: a parent interface
-to attach to, the host's subnet, and the host's gateway IP. Given this three
+I like to think about them. IPvlan requires three things: a interface on the running host
+to attach, the host's subnet, and the host's gateway IP. Given these three
 parameters, once you create and attach your container to the IPVlan network
 two interesting things will happen:
 
@@ -163,7 +163,9 @@ two interesting things will happen:
    `subnet` parameters
 2. The IPvlan construct will create a network interface with the same MAC address
    as the parent's interface MAC address, this is how you know which interface
-   inside the container belongs to your IPvlan network
+   inside the container belongs to your IPvlan network. This one is super important
+   on cloud environments since it shares the parent's MAC address, the OS just
+   demultiplexes requests to the correct endpoint, which in this case is my container
 
 There were some quirks as well from how I configured my proxy to use this new
 network, the first one was that my very simple proxy relied on attaching to a
@@ -177,9 +179,9 @@ grand-total of 3+ ethernet interfaces in my container. The question is: To which
 of these interfaces should I bind my IPs to and how do I do it?
 
 The answer is a little obvious once you realize that if my application previously
-chose the interface `eth0` one a whim, it can still choose the interface, however
+chose interface `eth0` on a whim. It still needs to choose an interface, however
 now it has to do so dynamically. To know which interface my proxy has to attach
-is pretty simple, given a subnet that was previously declared for the IPvlan
+is pretty simple: Given a subnet that was previously declared for the IPvlan
 network, find the interface that has an IP that belongs to that subnet.
 Remember that the IPvlan construct will assign a routable IP address to the
 container based on the gateway and the subnet given at creation time.
