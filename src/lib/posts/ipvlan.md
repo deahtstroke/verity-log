@@ -124,7 +124,7 @@ response to this change: "This is not the intended use of Docker Swarm", which
 made me realize that this was not the right approach to the problem. It was
 the easy approach, but not the best one.
 
-## IPvlan Network to the rescue
+## IPvlan Driver to the rescue
 
 Months later, after some thorough research, very well-crafted prompts (not really),
 and reading the available network drivers that were available with Docker,
@@ -150,10 +150,13 @@ IPvlan and Macvlan kind of push the boundaries of network isolation in general.
 Whereas the normal bridge driver completely isolates containers from the host,
 due to it acting as a network switch and ethernet cables, the cables being
 virtual ethernet pairs, and the switch being a Linux bridge.
-The host driver, on the other hand, offers no isolation whatsoever since the container would
-share the same network stack as the host. Both IPvlan and Macvlan are in
-a gray area in-between these two drivers, or at least that's how
-I like to think about them. IPvlan requires three things: a interface on the running host
+The host driver, on the other hand, offers very minimal isolation since the
+container would share the same network stack as the host. Both IPvlan and
+Macvlan settle in a nice middle-ground in regards to how they work.
+The big trade-off for this is that both of these drivers are what are known as
+"locally scoped" drivers, something that I'll talk about later.
+
+IPvlan requires three things: a interface on the running host
 to attach, the host's subnet, and the host's gateway IP. Given these three
 parameters, once you create and attach your container to the IPVlan network
 two interesting things will happen:
@@ -168,28 +171,30 @@ two interesting things will happen:
    demultiplexes requests to the correct endpoint, which in this case is my container
 
 There were some quirks as well from how I configured my proxy to use this new
-network, the first one was that my very simple proxy relied on attaching to a
-well-known network interface. In my case, the proxy would attach to `eth0` by
-default since it had access to the host's network stack and the existance
-of this network interface was a given. Now however, not only does my container
-have the network interface created by the IPvlan driver, but also it contains
-the interface created by the ingress network for the routing mesh, and a
-user-made overlay network for service communication. This brings it to a
-grand-total of 3+ ethernet interfaces in my container. The question is: To which
-of these interfaces should I bind my IPs to and how do I do it?
+network. First: my very simple proxy relied on attaching to a statically-defined
+network interface. The proxy would attach to `eth0` by default since it
+operated at the host's networking-level. Adding yet another network driver to
+my solution means that there's an additional network interface that
+I'm able to bind to. Here's an overview of how many network interfaces the
+container would have if we were to inspect it:
+
+1. An interface for the routing mesh's overlay network
+2. Another interface that corresponds with the internal overlay network for
+   cross-service communication
+3. An interface for the gateway-bridge network
 
 The answer is a little obvious once you realize that if my application previously
 chose interface `eth0` on a whim. It still needs to choose an interface, however
 now it has to do so dynamically. To know which interface my proxy has to attach
 is pretty simple: Given a subnet that was previously declared for the IPvlan
-network, find the interface that has an IP that belongs to that subnet.
-Remember that the IPvlan construct will assign a routable IP address to the
+network, find the network interface that has an IP that belongs to that subnet.
+Remember that the IPvlan driver will assign a routable IP address to the
 container based on the gateway and the subnet given at creation time.
 
-In my proxy the code relevant to dynamic interface discovery is the following:
+Here's a snippet of code relevant to how I implemented dynamic interface discovery:
 
 ```go
-  _, targetSubnet, err := net.ParseCIDR("2604:a880:4:1d0::/64")
+  _, targetSubnet, err := net.ParseCIDR("<my_ipv6_gateway>")
   if err != nil {
       log.Fatalf("Unable to parse CIDR block: %v", err)
   }
@@ -214,3 +219,26 @@ Outer:
       }
   }
 ```
+
+Additionally, in order to make effective use of my IPv6 addresses I have
+to bind them to the same interface we discovered using the above snippet.
+This one is also pretty straight-forward, I decided to use the `ip` utility
+for assigning them to my container's `eth` interface as such:
+
+```go
+for range *ipv6n {
+  cmd := exec.Command("ip", "-6", "addr", "add", fmt.Sprintf("%s/64", addr.String()), "dev", ipv6interface)
+
+  if output, err := cmd.CombinedOutput(); err != nil {
+    if *verbose {
+        log.Printf("Failed to add IP %s: %v | Output: %s", addr.String(), err, string(output))
+    }
+  } else if *verbose {
+    log.Printf("Successfully plumbed %s onto %s", addr.String(), ipv6interface)
+  }
+
+  // ...
+}
+```
+
+## About Locally-Scoped Networks in Swarm
