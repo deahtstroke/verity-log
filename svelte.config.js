@@ -9,7 +9,7 @@ import rehypeSlug from 'rehype-slug';
 
 const highlighterPromise = createHighlighter({
 	themes: ['catppuccin-frappe', 'catppuccin-mocha', 'material-theme-ocean', 'material-theme', 'dracula'],
-	langs: ['go', 'json', 'yaml']
+	langs: ['go', 'json', 'yaml', 'bash']
 })
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -27,7 +27,7 @@ const config = {
 					return `{@html \`<pre class="mermaid">${code}</pre>\`}`;
 				}
 				const highlighter = await highlighterPromise
-				await highlighter.loadLanguage('go', 'json', 'svelte', 'mermaid', 'markdown', 'toml');
+				await highlighter.loadLanguage('go', 'json', 'svelte', 'mermaid', 'markdown', 'toml', 'bash');
 				let html = escapeSvelte(
 					highlighter.codeToHtml(code, {
 						lang,

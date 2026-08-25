@@ -242,3 +242,53 @@ for range *ipv6n {
 ```
 
 ## About Locally-Scoped Networks in Swarm
+
+Technically speaking, both the Macvlan and IPvlan networks are what would
+be considered 'locallyl-scopped' networks. Meaning that their setups are
+tightly coupled to the local network in which they are declared. Like
+we saw above, in order to first declare an IPvlan network to use it within
+Docker we need to set the parent interface, the network gateway, and the
+subnet in which we'll be assigning IP addresses to the containers that
+join the network itself. All this setup is very locally-focused. What's
+the issue then? Well, in the context of my app is that I'm running a Docker
+Swarm cluster and that by itself makes every Docker data structure swarm-scoped
+instead of local-scoped like if I were using a standalone Docker engine.
+The real issue that I encountered with this (and annoying one at that),
+was creating the IPvlan network with a `--scope=swarm` flag thinking
+_it would work_. The reason this didn't work, is because there's extra
+setup that involves creating these types of networks in a Swarm, because
+this type of network is, again, constrained a lot by the locally-available
+network resources, then it does not make sense for the Raft state to
+save local resources to one Node for this network. The solution for this
+was to create a swarm-scopped IPvlan network that takes in a configuration
+template that each Node individually must supply.
+
+Creating the Node-local config-only network:
+
+```bash
+docker network create -d ipvlan\
+--subnet=<subnet_cidr> \
+--gateway=<gateway_ip_address> \
+-o parent=<local_interface> \
+-o ipvlan_mode=l2 \
+--config-only \ # Important! This creates is only a config template
+ipvlan-config
+```
+
+Creating a Swarm-scoped IPvlan network from the previously declared
+template:
+
+```bash
+docker network create -d ipvlan \
+--scope=swarm \
+--config-from ipvlan-config \
+--attachable \
+proxy-egress
+```
+
+> [!WARNING]
+> If you do not do this step correctly then Docker WILL
+> create an IPvlan network but without the passed-in options for
+> the subnet, parent interface, and gateway address. A quick
+> `docker network inspect` can help validate this if it ever
+> happens to you.
