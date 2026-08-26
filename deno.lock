@@ -3817,6 +3817,7 @@
         "npm:rehype-autolink-headings@^7.1.0",
         "npm:rehype-callouts@^2.1.2",
         "npm:rehype-mermaid@3",
+        "npm:rehype-pretty-code@~0.14.5",
         "npm:rehype-slug@6",
         "npm:remark-autolink-headings@^7.0.1",
         "npm:remark-callouts@2",

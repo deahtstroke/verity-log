@@ -22,8 +22,6 @@ const config = {
 		highlight: {
 			highlighter: async (code, lang = 'text') => {
 				if (lang === 'mermaid') {
-					// Return a raw div that the client-side library will target
-					// We wrap in {@html} to ensure Svelte doesn't parse it
 					return `{@html \`<pre class="mermaid">${code}</pre>\`}`;
 				}
 				const highlighter = await highlighterPromise

@@ -156,6 +156,31 @@ Macvlan settle in a nice middle-ground in regards to how they work.
 The big trade-off for this is that both of these drivers are what are known as
 "locally scoped" drivers, something that I'll talk about later.
 
+```mermaid
+---
+title: Isolation Between Different Network Drivers
+---
+flowchart TB
+  subgraph Bridge Driver
+    direction TB
+    container1(My Proxy) -- Veth Pairs --- bridge(Linux Bridge)
+    bridge(Linux Bridge) -- NAT --- Eth0(Host's Eth0)
+  end
+
+  subgraph Host Driver
+    direction TB
+    container2(My Proxy) -- Host Network Stack --- host(Host Machine)
+  end
+
+  subgraph IPvlan Driver
+    direction TB
+    container3(My Proxy) -- Has a routable IP --- ipvlan(IPvlan Construct)
+    ipvlan(IPvlan Construct) --- host1(Host Machine)
+    host1(Host Machine) --> mac(NIC w/Mac Address)
+    container3 --> mac
+  end
+```
+
 IPvlan requires three things: a interface on the running host
 to attach, the host's subnet, and the host's gateway IP. Given these three
 parameters, once you create and attach your container to the IPVlan network
@@ -182,6 +207,27 @@ container would have if we were to inspect it:
 2. Another interface that corresponds with the internal overlay network for
    cross-service communication
 3. An interface for the gateway-bridge network
+
+```mermaid
+---
+title: My Container's Interfaces in Swarm
+config:
+  theme: 'dark'
+  themeVariables:
+    fontSize: 12px
+    mainBkg: '#1e1e2e'
+---
+flowchart LR
+  container(Proxy Container) --> eth0(eth0 \nRouting Mesh\nIngress Overlay)
+  eth0 --> swarm(Swarm published ports)
+  container --> eth1(eth1\nInternal Overlay\nCross-service comm.)
+  eth1 --> others(Other services via\nservice name DNS)
+  container --> eth2(eth2\nGateway Bridge)
+  eth2 --> egress(Default Egress / Outside World)
+  container --> eth3(eth3\nIPvlan\nRoutable host-subnet IP)
+  eth3 --> Bungie(Bungie API\nMuli-IP round robin)
+
+```
 
 The answer is a little obvious once you realize that if my application previously
 chose interface `eth0` on a whim. It still needs to choose an interface, however
@@ -244,8 +290,8 @@ for range *ipv6n {
 ## About Locally-Scoped Networks in Swarm
 
 Technically speaking, both the Macvlan and IPvlan networks are what would
-be considered 'locallyl-scopped' networks. Meaning that their setups are
-tightly coupled to the local network in which they are declared. Like
+be considered 'locally-scopped' networks. Meaning that their setups are
+tightly coupled to the local network in the hosts they are declared. Like
 we saw above, in order to first declare an IPvlan network to use it within
 Docker we need to set the parent interface, the network gateway, and the
 subnet in which we'll be assigning IP addresses to the containers that
@@ -271,7 +317,7 @@ docker network create -d ipvlan\
 --gateway=<gateway_ip_address> \
 -o parent=<local_interface> \
 -o ipvlan_mode=l2 \
---config-only \ # Important! This creates is only a config template
+--config-only \
 ipvlan-config
 ```
 

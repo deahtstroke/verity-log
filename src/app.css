@@ -196,4 +196,8 @@
   hr {
     @apply border-[0.5px] border-surface0
   }
+
+  .mermaid {
+    @apply bg-mantle border border-surface0
+  }
 }
